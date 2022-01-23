@@ -28,12 +28,23 @@ export default class CreateUser extends Component {
         }
     
         console.log(user);
-
-        axios.post('http://localhost:5000/users/add',user)
-        .then(res => console.log(res.data));
+    
+        axios.post('http://localhost:5000/users/add', user)
+          .then(res => console.log(res.data))
+          .catch((error) => {
+            if (error.response){
+                console.log("Response Error");
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            }else if(error.request){           
+                console.log("Request Error");
+            }else if(error.message){
+                console.log("Message Error");
+            }});
     
         this.setState({
-            username: '',
+          username: ''
         })
       }
 
@@ -51,6 +62,7 @@ export default class CreateUser extends Component {
                             onChange={this.onChangeUsername}
                             />
                     </div>
+                    <br></br>
                     <div className="form-group">
                         <input type="submit" value="Create User" className="btn btn-primary" />
                     </div>

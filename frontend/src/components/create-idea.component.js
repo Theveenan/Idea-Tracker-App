@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {Component} from 'react';
 
 export default class CreateIdea extends Component {
@@ -16,9 +17,16 @@ export default class CreateIdea extends Component {
     }
 
     componentDidMount(){
-        this.setState({
-            users: ['test user'],
-            username: 'test user'
+        axios.get('http://localhost:5000/users/')
+        .then(response =>{
+            if (response.data.length > 0){
+                this.setState({
+                    users: response.data.map(eachUser => eachUser.username),
+                    username: response.data[0].username
+                })
+            }else{
+                
+            }
         })
     }
 
@@ -38,10 +46,26 @@ export default class CreateIdea extends Component {
         e.preventDefault();
         const idea = {
             username: this.state.username,
-            desription: this.state.description,
+            description: this.state.description,
         }
 
         console.log(idea);
+
+        axios.post('http://localhost:5000/ideas/add', idea)
+        .then(res => console.log(res.data))
+        .catch((error) => {
+        console.log("catched");
+        if (error.response){
+            console.log("Response Error");
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        }else if(error.request){           
+            console.log("Request Error");
+        }else if(error.message){
+            console.log("Message Error");
+        }});
+
         window.location = '/';
     }
 
@@ -77,6 +101,7 @@ export default class CreateIdea extends Component {
                             onChange={this.onChangeDescription}
                             />
                     </div>
+                    <br></br>
                     <div className="form-group">
                         <input type="submit" value="Create Exercise Log" className="btn btn-primary" />
                     </div>
