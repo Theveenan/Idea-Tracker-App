@@ -7,7 +7,7 @@ const Idea = props => (
       <td>{props.idea.username}</td>
       <td>{props.idea.description}</td>
       <td>
-        <Link to={"/edit/"+props.idea._id}>edit</Link> | <a href="#" onClick={() => { props.deleteIdea(props.idea._id) }}>delete</a>
+        {/*<Link to={"/edit/"+props.idea._id}>edit</Link>*/} | <a href="#" onClick={() => { props.deleteIdea(props.idea._id) }}>delete</a>
       </td>
     </tr>
   )
